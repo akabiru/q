@@ -1,8 +1,11 @@
+require_relative 'master'
+
 module Quizzer
   class CliController
     class << self
       def call(args)
-        num = validate_input(args)
+        num_of_q = validate_input(args)
+        Quizzer::Master.run!(num_of_q)
       end
 
       private_class_method
