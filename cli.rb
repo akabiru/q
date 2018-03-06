@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
 
-require_relative 'quizzer'
+require_relative 'lib/quizzer'
 
 Quizzer::CliController.call(ARGV)
