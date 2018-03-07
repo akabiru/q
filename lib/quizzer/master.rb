@@ -5,7 +5,7 @@ require_relative 'orm/question'
 
 module Quizzer
   class Master
-    attr_reader :strands, :children
+    attr_reader :strands, :children, :num_of_q
 
     def initialize(number_of_questions)
       @num_of_q = number_of_questions
@@ -20,12 +20,13 @@ module Quizzer
     def run!
       build_orm
       load_children
+
+      puts random_questions
+      exit 0
     end
 
     def build_orm
       arr_of_arrs = CSV.read(questions_csv_path)
-      p arr_of_arrs[1..-1]
-
       @strands = load_orm_objects(arr_of_arrs[1..-1])
     end
 
@@ -40,15 +41,16 @@ module Quizzer
       end
     end
 
-    def cycle_through_strands(strands)
-      pick_random_standards
-    end
+    def random_questions
+      q_ids = []
+      num_of_q.to_i.times do
+        strand = strands.sample
+        standard = Orm::Standard.fk_objects(strand.id).sample
+        question = Orm::Question.fk_objects(standard.id).sample
 
-    def pick_random_standards
-      pick_random_questions
-    end
-
-    def pick_random_questions
+        q_ids << question.id if question
+      end
+      q_ids
     end
 
     def questions_csv_path

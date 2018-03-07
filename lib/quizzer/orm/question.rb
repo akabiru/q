@@ -24,7 +24,7 @@ module Quizzer
 
         def find_or_create(q_arr, fk_id)
           id = q_arr[0]
-          obj_exists = @@questions.find { |q| q.id == id }
+          obj_exists = self_list.find { |q| q.id == id }
 
           # we do not have an existing question; so create one
           new(q_arr, fk_id) unless obj_exists

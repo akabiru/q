@@ -30,10 +30,9 @@ module Quizzer
           obj_exists = self_list.find { |s| s.id == id }
 
           # we do not have an existing standard; so create one
-          return new(std_arr, fk_id) unless obj_exists
-
+          obj = (obj_exists ? obj_exists : new(std_arr, fk_id))
           # we have an existing standard; create child
-          obj_exists.find_or_create_child(std_arr[2..-1], id)
+          obj.find_or_create_child(std_arr[2..-1], obj.id)
         end
       end
 

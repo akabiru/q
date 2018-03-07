@@ -26,11 +26,9 @@ module Quizzer
           obj_exists = @@strands.find { |s| s.id == strand_id }
 
           # we do not have an existing strand; create one
-          return new(arr) unless obj_exists
-
-          obj_id = obj_exists.id
+          obj = (obj_exists ? obj_exists : new(arr))
           # we have an existing strand; find_or_create child in it
-          obj_exists.find_or_create_child(arr[2..-1], obj_id)
+          obj.find_or_create_child(arr[2..-1], obj.id)
         end
       end
 
