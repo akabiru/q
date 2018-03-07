@@ -19,6 +19,7 @@ module Quizzer
 
     def run!
       build_orm
+      load_children
     end
 
     def build_orm
@@ -34,7 +35,7 @@ module Quizzer
     end
 
     def load_children
-      strands.map do |strand|
+      @children = strands.map do |strand|
         strand.children.map(&:self_list).flatten
       end
     end
