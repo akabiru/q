@@ -1,7 +1,7 @@
 require_relative 'question'
 
 module Quizzer
-  module Orm
+  module Models
     class Standard
       # keep track of all standards
       @@standards ||= []

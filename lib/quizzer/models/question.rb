@@ -1,5 +1,5 @@
 module Quizzer
-  module Orm
+  module Models
     class Question
       @@questions ||= []
 

@@ -1,7 +1,7 @@
 require_relative 'standard'
 
 module Quizzer
-  module Orm
+  module Models
     class Strand
       # keep track of all strands
       @@strands  ||= []
