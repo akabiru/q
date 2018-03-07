@@ -3,6 +3,8 @@ module Quizzer
     class Question
       @@questions ||= []
 
+      attr_reader :id, :difficulty, :fk_id
+
       def initialize(arr, fk_id)
         @id = arr[0]
         @difficulty = arr[1]
@@ -12,6 +14,14 @@ module Quizzer
       end
 
       class << self
+        def self_list
+          @@questions
+        end
+
+        def fk_objects(parent_id)
+          self_list.select { |o| o.fk_id == parent_id }
+        end
+
         def find_or_create(q_arr, fk_id)
           id = q_arr[0]
           obj_exists = @@questions.find { |q| q.id == id }

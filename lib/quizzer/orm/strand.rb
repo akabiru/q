@@ -17,6 +17,10 @@ module Quizzer
       end
 
       class << self
+        def self_list
+          @@strands
+        end
+
         def find_or_create(arr)
           strand_id = arr[0]
           obj_exists = @@strands.find { |s| s.id == strand_id }
@@ -24,7 +28,6 @@ module Quizzer
           # we do not have an existing strand; create one
           return new(arr) unless obj_exists
 
-          require 'pry'; binding.pry
           obj_id = object_exists.id
           # we have an existing strand; find_or_create child in it
           obj_exists.find_or_create_child(arr[2..-1], obj_id)
