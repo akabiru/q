@@ -1,6 +1,7 @@
+require_relative 'standard'
+
 module Quizzer
   module Orm
-
     class Strand
       # keep track of all strands
       @@strands ||= []
@@ -17,21 +18,18 @@ module Quizzer
       class << self
         def find_or_create(arr)
           strand_id = arr[0]
+          s_exists = @@strands.find { |s| s.id == strand_id }
 
-          s_exists = @@strands.select do |s|
-            s.id == strand_id
-          end
-
-          # we do not have an existing strand
+          # we do not have an existing strand; create one
           return new(arr) unless s_exists
 
-          # we have an existing strand; create standards in it
-          s_exists.push_standards(arr[2..-1])
+          # we have an existing strand; find_or_create child in it
+          s_exists.find_or_create_child(arr[2..-1], self.class.id)
         end
-      end
 
-      def push_standards(std_array)
-        @standard = Orm::Standard.find_or_create(std_array, @id)
+        def find_or_create_child(std_arr, fk_id, child = Standard)
+          child.find_or_create(std_arr, fk_id)
+        end
       end
 
       private

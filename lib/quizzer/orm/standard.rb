@@ -1,3 +1,5 @@
+require_relative 'question'
+
 module Quizzer
   module Orm
     class Standard
@@ -7,32 +9,26 @@ module Quizzer
       def initialize(arr, fk_id)
         @id = arr[0]
         @name = arr[1]
-        @strand_id = fk_id
-        @question = Orm::Question.new(arr[2..-1], @id)
+        @fk_id = fk_id
 
         push_to_standards_list
       end
 
       class << self
-        def find_or_create(arr, fk_id)
-          id = arr[0]
+        def find_or_create(std_arr, fk_id)
+          id = std_arr[0]
+          s_exists = @@standards.find { |s| s.id == id }
 
-          s_exists = @@standards.select do |s|
-            s.id == id
-          end
+          # we do not have an existing standard; so create one
+          return new(std_arr, fk_id) unless s_exists
 
-          # we do not have an existing standard
-          return new(arr) unless s_exists
-
-          # we have an existing standard; create questions in it
-          s_exists.push(arr[2..-1], id)
+          # we have an existing standard; create child
+          s_exists.find_or_create_child(std_arr[2..-1], id)
         end
-      end
 
-      def
-
-      # all questions with
-      def questions
+        def find_or_create_child(q_arr, fk_id, child = Question)
+          child.find_or_create(q_arr, fk_id)
+        end
       end
 
       private
