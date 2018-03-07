@@ -24,13 +24,13 @@ module Quizzer
     def build_orm
       arr_of_arrs = CSV.read(questions_csv_path)
       p arr_of_arrs[1..-1]
+
       @strands = load_orm_objects(arr_of_arrs[1..-1])
     end
 
     def load_orm_objects(data)
-      data.map do |arr|
-        Orm::Strand.find_or_create(arr)
-      end
+      data.each { |arr| Orm::Strand.find_or_create(arr) }
+      Orm::Strand.self_list
     end
 
     def cycle_through_strands(strands)
