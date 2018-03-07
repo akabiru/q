@@ -21,7 +21,10 @@ module Quizzer
       build_orm
       load_children
 
-      puts random_questions
+      output_data = ['question_id', *random_questions]
+
+      write_to_csv(output_data)
+      puts output_data
       exit 0
     end
 
@@ -51,6 +54,10 @@ module Quizzer
         q_ids << question.id if question
       end
       q_ids
+    end
+
+    def write_to_csv(data, filename = 'usage')
+      CSV.open("#{filename}.csv", 'wb') { |csv| csv << data }
     end
 
     def questions_csv_path
