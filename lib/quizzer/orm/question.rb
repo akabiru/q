@@ -33,7 +33,7 @@ module Quizzer
 
       private
 
-      def push_to_questions_array
+      def push_to_questions_list
         @@questions.push self
       end
     end
