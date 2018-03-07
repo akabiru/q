@@ -27,7 +27,7 @@ module Quizzer
 
         def find_or_create(std_arr, fk_id)
           id = std_arr[0]
-          obj_exists = @@standards.find { |s| s.id == id }
+          obj_exists = self_list.find { |s| s.id == id }
 
           # we do not have an existing standard; so create one
           return new(std_arr, fk_id) unless obj_exists

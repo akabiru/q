@@ -36,7 +36,7 @@ module Quizzer
 
     def load_children
       @children = strands.map do |strand|
-        strand.children.map(&:self_list).flatten
+        strand.children.map { |child| child.fk_objects(strand.id) }.flatten
       end
     end
 
