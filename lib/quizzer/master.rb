@@ -5,7 +5,7 @@ require_relative 'orm/question'
 
 module Quizzer
   class Master
-    attr_reader :strands
+    attr_reader :strands, :children
 
     def initialize(number_of_questions)
       @num_of_q = number_of_questions
@@ -31,6 +31,12 @@ module Quizzer
     def load_orm_objects(data)
       data.each { |arr| Orm::Strand.find_or_create(arr) }
       Orm::Strand.self_list
+    end
+
+    def load_children
+      strands.map do |strand|
+        strand.children.map(&:self_list).flatten
+      end
     end
 
     def cycle_through_strands(strands)
